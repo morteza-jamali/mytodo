@@ -1,17 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import Link, { type LinkProps } from 'next/link';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, {
-  type ReactNode,
-  useState,
-  type JSX,
-  Fragment,
-  useEffect,
-} from 'react';
+import React, { useState, type JSX, Fragment, useEffect } from 'react';
 import { motion, stagger, type Variants } from 'motion/react';
 import css from 'styled-jsx/css';
+import { ButtonLink, type ButtonLinkProps } from '@/components';
 
 import LogoImg from '@/public/logo.png';
 import ChevronRightImg from '@/public/chevron_right.svg';
@@ -66,49 +61,9 @@ interface MenuItemType {
 
 export type MenuDataType = MenuItemType[];
 
-interface ButtonProps {
-  as: 'button' | 'a';
-  isActive: boolean;
-  children: ReactNode;
-  href?: LinkProps['href'];
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}
-
-const getButtonLinkStyles = (isActive: boolean) => css.resolve`
-  a {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-    background-color: ${isActive ? 'var(--black-2)' : 'transparent'};
-
-    &:hover {
-      background-color: var(--black-2);
-    }
-  }
-`;
-
-const Button: React.FC<ButtonProps> = ({
-  as,
-  children,
-  href,
-  onClick,
-  isActive,
-}) => {
-  const buttonLinkStyles = getButtonLinkStyles(isActive);
-
-  return as === 'a' ? (
-    <>
-      <Link className={buttonLinkStyles.className} href={href ?? ''}>
-        {children}
-      </Link>
-      {buttonLinkStyles.styles}
-    </>
-  ) : (
-    <>
-      <button onClick={onClick}>{children}</button>
-      <style jsx>{`
+const getButtonLinkStyles = (isActive: boolean, as: ButtonLinkProps['as']) =>
+  as === 'button'
+    ? css.resolve`
         button {
           display: flex;
           background-color: ${isActive ? 'var(--black-2)' : 'transparent'};
@@ -123,10 +78,21 @@ const Button: React.FC<ButtonProps> = ({
             background-color: var(--black-2);
           }
         }
-      `}</style>
-    </>
-  );
-};
+      `
+    : css.resolve`
+        a {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 16px;
+          background-color: ${isActive ? 'var(--black-2)' : 'transparent'};
+
+          &:hover {
+            background-color: var(--black-2);
+          }
+        }
+      `;
 
 const MotionChevronRightImg = motion.create(ChevronRightImg);
 
@@ -165,6 +131,8 @@ const MenuItem: React.FC<MenuItemType> = ({ icon, label, items, href }) => {
   const pathname = usePathname();
   const [isActive, setIsActive] = useState(pathname === href);
   const [open, toggleOpen] = useState(isActive);
+  const as = items ? 'button' : 'a';
+  const buttonLinkStyles = getButtonLinkStyles(isActive, as);
 
   useEffect(() => {
     setIsActive(pathname === href);
@@ -176,10 +144,10 @@ const MenuItem: React.FC<MenuItemType> = ({ icon, label, items, href }) => {
 
   return (
     <motion.div variants={menuItemVariants}>
-      <Button
-        as={items ? 'button' : 'a'}
+      <ButtonLink
+        className={buttonLinkStyles.className}
         onClick={() => toggleOpen(!open)}
-        {...{ href, isActive }}
+        {...{ href, as }}
       >
         <div className="menu_item__icon_label">
           <div className="menu_item__icon">{icon}</div>
@@ -197,7 +165,7 @@ const MenuItem: React.FC<MenuItemType> = ({ icon, label, items, href }) => {
             className={menuItemChevronStyles.className}
           />
         )}
-      </Button>
+      </ButtonLink>
       {items && (
         <motion.div
           initial={{
@@ -238,6 +206,7 @@ const MenuItem: React.FC<MenuItemType> = ({ icon, label, items, href }) => {
         </motion.div>
       )}
 
+      {buttonLinkStyles.styles}
       {menuItemChevronStyles.styles}
       <style jsx>{`
         .menu_item__icon {
@@ -280,7 +249,7 @@ const menuRootStyles = css.resolve`
 
 const menuVariants: Variants = {
   show: {
-    transition: { delayChildren: stagger(0.3) },
+    transition: { delayChildren: stagger(0.1) },
   },
   hide: {},
 };
@@ -312,6 +281,7 @@ export const Sidebar: React.FC = () => {
         .sidebar__root {
           grid-area: sidebar;
           background-color: var(--black-1);
+          border-right: 1px solid var(--black-3);
         }
       `}</style>
     </div>
