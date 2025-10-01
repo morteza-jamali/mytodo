@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import StyledJsxRegistry from './registry';
+import StyledJsxRegistry from '../registry';
+import { DashboardLayout } from '@/components';
 
 import 'normalize.css/normalize.css';
-import './globals.css';
+import '../globals.css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyledJsxRegistry>{children}</StyledJsxRegistry>
+        <StyledJsxRegistry>
+          <DashboardLayout>{children}</DashboardLayout>
+        </StyledJsxRegistry>
       </body>
     </html>
   );
