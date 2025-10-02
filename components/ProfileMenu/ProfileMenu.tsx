@@ -1,7 +1,7 @@
 'use client';
 
 import React, { JSX, type ReactNode } from 'react';
-import { Popover } from '@/components';
+import { ButtonLink, Popover } from '@/components';
 import Image from 'next/image';
 import css from 'styled-jsx/css';
 
@@ -70,6 +70,12 @@ const profileMenuContentStyles = css.resolve`
   }
 `;
 
+const profileMenuItemStyles = css.resolve`
+  a {
+    color: red;
+  }
+`;
+
 export const ProfileMenu: React.FC = () => {
   return (
     <>
@@ -78,7 +84,16 @@ export const ProfileMenu: React.FC = () => {
         classNames={{ content: profileMenuContentStyles.className }}
         target={<ProfileMenuTarget />}
       >
-        <div>This is the popover content!</div>
+        {ProfileMenuData.map(({ icon, label, href, onClick }, index) => (
+          <ButtonLink
+            key={`profile-menu-item-${index}`}
+            as={href ? 'a' : 'button'}
+            {...{ href, onClick }}
+          >
+            {icon}
+            <span>{label}</span>
+          </ButtonLink>
+        ))}
       </Popover>
       {profileMenuContentStyles.styles}
     </>
