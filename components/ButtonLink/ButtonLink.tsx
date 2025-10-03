@@ -1,5 +1,5 @@
 import Link, { type LinkProps } from 'next/link';
-import { type ReactNode } from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
 
 export interface ButtonLinkProps {
   as: 'button' | 'a';
@@ -7,6 +7,7 @@ export interface ButtonLinkProps {
   href?: LinkProps['href'];
   onClick?: React.MouseEventHandler<any>;
   className?: string;
+  style?: CSSProperties;
 }
 
 export const ButtonLink: React.FC<ButtonLinkProps> = ({
@@ -15,13 +16,14 @@ export const ButtonLink: React.FC<ButtonLinkProps> = ({
   href,
   onClick,
   className,
+  style,
 }) =>
   as === 'a' ? (
-    <Link href={href ?? ''} {...{ className }}>
+    <Link href={href ?? ''} {...{ className, style }}>
       {children}
     </Link>
   ) : (
-    <button onClick={onClick} {...{ className }}>
+    <button onClick={onClick} {...{ className, style }}>
       {children}
     </button>
   );

@@ -19,6 +19,7 @@ export const ProfileMenuData: ProfileMenuDataType = [
     icon: <LogoutImg />,
     label: 'Logout',
     onClick: () => alert('logout'),
+    style: { color: 'red' },
   },
 ];
 

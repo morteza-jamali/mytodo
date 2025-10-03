@@ -57,6 +57,7 @@ interface ProfileMenuItem {
   label: string;
   href?: string;
   onClick?: React.MouseEventHandler<any>;
+  style?: React.CSSProperties;
 }
 
 export type ProfileMenuDataType = ProfileMenuItem[];
@@ -102,14 +103,14 @@ export const ProfileMenu: React.FC = () => {
   return (
     <>
       <Popover place="right" target={<ProfileMenuTarget />}>
-        {ProfileMenuData.map(({ icon, label, href, onClick }, index) => {
+        {ProfileMenuData.map(({ icon, label, href, onClick, style }, index) => {
           const as = href ? 'a' : 'button';
 
           return (
             <Fragment key={`profile-menu-item-${index}`}>
               <ButtonLink
                 className={`${as === 'button' && profileMenuButtonStyles.className} ${sharedProfileMenuItemStyles.className}`.trim()}
-                {...{ href, onClick, as }}
+                {...{ href, onClick, as, style }}
               >
                 {icon}
                 <span>{label}</span>
