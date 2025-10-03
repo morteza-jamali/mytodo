@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, type ReactNode } from 'react';
+import React, { Fragment, JSX, type ReactNode } from 'react';
 import { ButtonLink, Popover } from '@/components';
 import Image from 'next/image';
 import css from 'styled-jsx/css';
@@ -61,41 +61,65 @@ interface ProfileMenuItem {
 
 export type ProfileMenuDataType = ProfileMenuItem[];
 
-const profileMenuContentStyles = css.resolve`
-  div {
-    background-color: var(--black-1);
-    border-radius: 4px;
-    padding: 5px;
-    border: 1px solid #424242;
+const profileMenuButtonStyles = css.resolve`
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
 `;
 
-const profileMenuItemStyles = css.resolve`
+const sharedProfileMenuItemStyles = css.resolve`
+  button,
   a {
-    color: red;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color-1);
+    padding: 7px 12px;
+    width: 100%;
+    line-height: 21.7px;
+    user-select: none;
+    -webkit-user-drag: none;
+
+    & :global(svg) {
+      width: 14px;
+      height: 14px;
+    }
+
+    & :global(span) {
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    &:hover {
+      background-color: var(--black-4);
+    }
   }
 `;
 
 export const ProfileMenu: React.FC = () => {
   return (
     <>
-      <Popover
-        place="right"
-        classNames={{ content: profileMenuContentStyles.className }}
-        target={<ProfileMenuTarget />}
-      >
-        {ProfileMenuData.map(({ icon, label, href, onClick }, index) => (
-          <ButtonLink
-            key={`profile-menu-item-${index}`}
-            as={href ? 'a' : 'button'}
-            {...{ href, onClick }}
-          >
-            {icon}
-            <span>{label}</span>
-          </ButtonLink>
-        ))}
+      <Popover place="right" target={<ProfileMenuTarget />}>
+        {ProfileMenuData.map(({ icon, label, href, onClick }, index) => {
+          const as = href ? 'a' : 'button';
+
+          return (
+            <Fragment key={`profile-menu-item-${index}`}>
+              <ButtonLink
+                className={`${as === 'button' && profileMenuButtonStyles.className} ${sharedProfileMenuItemStyles.className}`.trim()}
+                {...{ href, onClick, as }}
+              >
+                {icon}
+                <span>{label}</span>
+              </ButtonLink>
+              {sharedProfileMenuItemStyles.styles}
+              {as === 'button' && profileMenuButtonStyles.styles}
+            </Fragment>
+          );
+        })}
       </Popover>
-      {profileMenuContentStyles.styles}
     </>
   );
 };

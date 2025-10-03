@@ -35,7 +35,7 @@ const Logo: React.FC = () => {
           gap: 10px;
           width: 100%;
           padding: 10px 0;
-          border-bottom: 1px solid #424242;
+          border-bottom: 1px solid var(--black-4);
         }
 
         span {
@@ -110,7 +110,7 @@ const getMenuItemSubmenuItemStyles = (isActive: boolean) => css.resolve`
     color: var(--text-color-1);
     font-weight: 500;
     font-size: 14px;
-    border-left: 1px solid #424242;
+    border-left: 1px solid var(--black-4);
     margin-left: 32px;
     padding: 10px 16px;
     line-height: 21.7px;

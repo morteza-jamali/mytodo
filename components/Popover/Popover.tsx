@@ -1,6 +1,14 @@
 'use client';
 
-import React, { useState, useRef, useEffect, type ReactNode, JSX } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  type ReactNode,
+  type JSX,
+} from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import css from 'styled-jsx/css';
 
 interface ClassNamesType {
   content?: string;
@@ -13,6 +21,30 @@ export interface PopoverProps {
   classNames?: ClassNamesType;
 }
 
+const getPopoverContentStyles = (place: PopoverProps['place']) => css.resolve`
+  div {
+    position: absolute;
+    background-color: var(--black-1);
+    border-radius: 4px;
+    padding: 4px;
+    border: 1px solid var(--black-4);
+    min-width: 200px;
+    box-shadow:
+      rgba(0, 0, 0, 0.05) 0px 1px 3px 0px,
+      rgba(0, 0, 0, 0.05) 0px 20px 25px -5px,
+      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    top: 100%;
+    margin-top: 10px;
+    z-index: 1000;
+    transform-origin: top ${place};
+    ${place === 'left'
+      ? 'left: 0;'
+      : place === 'right'
+        ? 'right: 0;'
+        : 'left: 50%;transform: translateX(-50%);'}
+  }
+`;
+
 export const Popover: React.FC<PopoverProps> = ({
   children,
   target,
@@ -22,6 +54,7 @@ export const Popover: React.FC<PopoverProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverContentStyles = getPopoverContentStyles(place);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -51,31 +84,26 @@ export const Popover: React.FC<PopoverProps> = ({
         ref: triggerRef,
         onClick: toggleVisibility,
       })}
-      {isVisible && (
-        <div
-          ref={popoverRef}
-          className={`popover__content ${classNames?.content ?? ''}`.trim()}
-        >
-          {children}
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ duration: 0.1 }}
+            ref={popoverRef}
+            className={`${popoverContentStyles.className} ${classNames?.content ?? ''}`.trim()}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {popoverContentStyles.styles}
       <style jsx>{`
         .popover__root {
           position: relative;
           display: inline-block;
-        }
-
-        .popover__content {
-          position: absolute;
-          top: 100%;
-          margin-top: 10px;
-          z-index: 1000;
-          ${place === 'left'
-            ? 'left: 0;'
-            : place === 'right'
-              ? 'right: 0;'
-              : 'left: 50%;transform: translateX(-50%);'}
         }
       `}</style>
     </div>
