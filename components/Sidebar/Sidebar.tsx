@@ -271,9 +271,13 @@ const Menu: React.FC = () => {
   );
 };
 
-export const Sidebar: React.FC = () => {
+export interface SidebarProps {
+  ref?: React.Ref<HTMLDivElement>;
+}
+
+export const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
-    <div className="sidebar__root">
+    <div className="sidebar__root" {...props}>
       <Logo />
       <Menu />
 
