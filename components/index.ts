@@ -5,3 +5,4 @@ export * from './Popover/Popover';
 export * from './ProfileMenu/ProfileMenu';
 export * from './ButtonLink/ButtonLink';
 export * from './ActionButton/ActionButton';
+export * from './TextInput/TextInput';
