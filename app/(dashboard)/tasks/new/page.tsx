@@ -1,6 +1,6 @@
 'use client';
 
-import { TextInput } from '@/components';
+import { DatePickerInput, TextInput } from '@/components';
 import React from 'react';
 
 const Header: React.FC = () => (
@@ -40,6 +40,7 @@ export default function NewTasks() {
       <Header />
       <TextInput placeholder="this is placeholder" label="label" />
       <TextInput placeholder="this is placeholder" label="label" textarea />
+      <DatePickerInput />
     </>
   );
 }

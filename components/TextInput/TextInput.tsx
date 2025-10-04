@@ -38,7 +38,7 @@ export const TextInput: React.FC<TextInputProps> = ({
           margin: 5px 0;
 
           &:focus {
-            border-color: #1971c2;
+            border-color: var(--blue-1);
           }
         }
 

@@ -29,7 +29,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
           justify-content: center;
 
           &:hover {
-            background-color: #3b3b3b;
+            background-color: var(--black-5);
           }
 
           & :global(svg) {
