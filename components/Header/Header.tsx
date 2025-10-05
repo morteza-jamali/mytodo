@@ -1,15 +1,18 @@
 'use client';
 
 import { ActionButton, ProfileMenu } from '@/components';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useFullscreen } from '@/hooks';
+import { SidebarContext } from '@/components/Sidebar/SidebarContext';
 
 import MoonImg from '@/public/moon.svg';
 import SunImg from '@/public/sun.svg';
 import MaximizeImg from '@/public/maximize.svg';
 import ArrowsMinimizeImg from '@/public/arrows_minimize.svg';
 import SearchImg from '@/public/search.svg';
+import SidebarCollapseImg from '@/public/layout_sidebar_left_collapse.svg';
+import SidebarExpandImg from '@/public/layout_sidebar_left_expand.svg';
 
 const MotionMoonImg = motion.create(MoonImg);
 const MotionSunImg = motion.create(SunImg);
@@ -42,6 +45,16 @@ const Fullscreen: React.FC = () => {
   return (
     <ActionButton onClick={toggle}>
       {fullscreen ? <ArrowsMinimizeImg /> : <MaximizeImg />}
+    </ActionButton>
+  );
+};
+
+const ToggleSidebar: React.FC = () => {
+  const [showSidebar, setShowSidebar] = useContext(SidebarContext);
+
+  return (
+    <ActionButton onClick={() => setShowSidebar(!showSidebar)}>
+      {showSidebar ? <SidebarCollapseImg /> : <SidebarExpandImg />}
     </ActionButton>
   );
 };
@@ -94,10 +107,13 @@ const SearchInput: React.FC = () => {
 export const Header: React.FC = () => {
   return (
     <div className="header__root">
+      <ToggleSidebar />
       <SearchInput />
-      <Fullscreen />
-      <ThemeLight />
-      <ProfileMenu />
+      <div className="header__right">
+        <Fullscreen />
+        <ThemeLight />
+        <ProfileMenu />
+      </div>
 
       <style jsx>{`
         .header__root {
@@ -106,12 +122,19 @@ export const Header: React.FC = () => {
           background-color: var(--black-1);
           display: flex;
           align-items: center;
-          justify-content: end;
+          justify-content: space-between;
           padding: 0 30px;
           border-bottom: 1px solid var(--black-3);
+        }
+
+        .header__right {
+          display: flex;
+          align-items: center;
           gap: 10px;
         }
       `}</style>
     </div>
   );
 };
+
+export default Header;
