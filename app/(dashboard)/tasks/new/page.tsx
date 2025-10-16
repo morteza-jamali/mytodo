@@ -1,6 +1,6 @@
 'use client';
 
-import { DatePickerInput, ImageDropzone, TextInput } from '@/components';
+import { DatePickerInput, Grid, ImageDropzone, TextInput } from '@/components';
 import React from 'react';
 
 const Header: React.FC = () => (
@@ -42,6 +42,26 @@ export default function NewTasks() {
       <TextInput placeholder="this is placeholder" label="label" textarea />
       <DatePickerInput />
       <ImageDropzone hint="Attach as many files as you like, each file should not exceed 5mb" />
+      <Grid gap={20}>
+        <Grid.Col span={3}>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis vel
+          mollitia molestias repellat dicta blanditiis esse, dolorem recusandae
+          voluptatem nisi saepe quae nihil. Officiis, odit sint praesentium
+          saepe quo voluptates.
+        </Grid.Col>
+        <Grid.Col span={3}>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis vel
+          mollitia molestias repellat dicta blanditiis esse, dolorem recusandae
+          voluptatem nisi saepe quae nihil. Officiis, odit sint praesentium
+          saepe quo voluptates.
+        </Grid.Col>
+        <Grid.Col span={3}>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis vel
+          mollitia molestias repellat dicta blanditiis esse, dolorem recusandae
+          voluptatem nisi saepe quae nihil. Officiis, odit sint praesentium
+          saepe quo voluptates.
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

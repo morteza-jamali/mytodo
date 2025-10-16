@@ -8,3 +8,4 @@ export * from './ActionButton/ActionButton';
 export * from './TextInput/TextInput';
 export * from './DatePickerInput/DatePickerInput';
 export * from './ImageDropzone/ImageDropzone';
+export * from './Grid/Grid';
