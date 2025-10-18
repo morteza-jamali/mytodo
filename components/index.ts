@@ -9,3 +9,6 @@ export * from './TextInput/TextInput';
 export * from './DatePickerInput/DatePickerInput';
 export * from './ImageDropzone/ImageDropzone';
 export * from './Grid/Grid';
+export * from './Checkbox/Checkbox';
+export * from './Priority/Priority';
+export * from './Flex/Flex';

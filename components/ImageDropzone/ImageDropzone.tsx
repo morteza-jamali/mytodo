@@ -157,6 +157,10 @@ export const ImageDropzone: React.FC<ImageDropzoneProps> = ({ hint }) => {
           display: flex;
           flex-direction: column;
 
+          & p {
+            text-align: center;
+          }
+
           & p:first-child {
             font-size: 20px;
             font-weight: 400;

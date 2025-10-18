@@ -55,6 +55,7 @@ export const DashboardLayout: React.FC<{ children: ReactNode }> = ({
         .main__root {
           grid-area: main;
           padding: 24px;
+          overflow-y: auto;
         }
       `}</style>
     </motion.div>
