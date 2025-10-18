@@ -12,3 +12,4 @@ export * from './Grid/Grid';
 export * from './Checkbox/Checkbox';
 export * from './Priority/Priority';
 export * from './Flex/Flex';
+export * from './InputWrapper/InputWrapper';

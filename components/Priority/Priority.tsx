@@ -1,8 +1,16 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
+import {
+  type ComponentProps,
+  useEffect,
+  useState,
+  type CSSProperties,
+} from 'react';
 import Checkbox, { type CheckboxProps } from '../Checkbox/Checkbox';
 import Flex from '../Flex/Flex';
+import InputWrapper, {
+  type InputWrapperProps,
+} from '../InputWrapper/InputWrapper';
 
 export interface PriorityItemProps extends Pick<CheckboxProps, 'onChange'> {
   label: string;
@@ -45,16 +53,18 @@ const PriorityItem: React.FC<PriorityItemProps> = ({
 
 type PriorityTypes = 'extreme' | 'moderate' | 'low';
 
-export interface PriorityProps {
+export interface PriorityProps
+  extends Pick<ComponentProps<'input'>, 'name'>,
+    Pick<InputWrapperProps, 'label'> {
   defaultValue?: PriorityTypes;
   onChange?: (priority: PriorityTypes | null) => void;
-  name?: string;
 }
 
 export const Priority: React.FC<PriorityProps> = ({
   defaultValue,
   onChange = () => {},
-  name = '',
+  name,
+  label,
 }) => {
   const [priority, setPriority] = useState<PriorityTypes | null>(
     defaultValue ?? null,
@@ -70,27 +80,33 @@ export const Priority: React.FC<PriorityProps> = ({
   }, [priority]);
 
   return (
-    <Flex alignItems="center" gap={30}>
-      <input type="hidden" value={priority ?? undefined} {...{ name }} />
-      <PriorityItem
-        label="Extreme"
-        dotColor="#fa5252"
-        checked={priority === 'extreme'}
-        onChange={(checked) => onChangeHandler(checked, 'extreme')}
-      />
-      <PriorityItem
-        label="Moderate"
-        dotColor="#15aabf"
-        checked={priority === 'moderate'}
-        onChange={(checked) => onChangeHandler(checked, 'moderate')}
-      />
-      <PriorityItem
-        label="Low"
-        dotColor="#40c057"
-        checked={priority === 'low'}
-        onChange={(checked) => onChangeHandler(checked, 'low')}
-      />
-    </Flex>
+    <InputWrapper {...{ label }} gap={5}>
+      <Flex alignItems="center" gap={30}>
+        <input
+          type="hidden"
+          defaultValue={priority ?? undefined}
+          {...{ name }}
+        />
+        <PriorityItem
+          label="Extreme"
+          dotColor="#fa5252"
+          checked={priority === 'extreme'}
+          onChange={(checked) => onChangeHandler(checked, 'extreme')}
+        />
+        <PriorityItem
+          label="Moderate"
+          dotColor="#15aabf"
+          checked={priority === 'moderate'}
+          onChange={(checked) => onChangeHandler(checked, 'moderate')}
+        />
+        <PriorityItem
+          label="Low"
+          dotColor="#40c057"
+          checked={priority === 'low'}
+          onChange={(checked) => onChangeHandler(checked, 'low')}
+        />
+      </Flex>
+    </InputWrapper>
   );
 };
 

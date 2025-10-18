@@ -7,12 +7,12 @@ import {
   Priority,
   TextInput,
 } from '@/components';
-import React from 'react';
+import React, { useActionState } from 'react';
 
 const Header: React.FC = () => (
   <div>
     <h3>Add New Task</h3>
-    <button>Create</button>
+    <button type="submit">Create</button>
 
     <style jsx>{`
       div {
@@ -40,22 +40,32 @@ const Header: React.FC = () => (
   </div>
 );
 
+const createNewTask = (_: any, queryData: FormData) => {
+  console.log(queryData.get('priority'));
+};
+
 export default function NewTasks() {
+  const [message, formAction] = useActionState(createNewTask, null);
+
   return (
-    <form>
+    <form action={formAction}>
       <Header />
       <Grid gap={20}>
         <Grid.Col span={8}>
-          <TextInput placeholder="this is placeholder" label="label" />
+          <TextInput label="Title" name="title" />
         </Grid.Col>
         <Grid.Col span={8}>
-          <DatePickerInput />
+          <DatePickerInput label="Date" />
         </Grid.Col>
         <Grid.Col span={8}>
-          <Priority />
+          <Priority name="priority" label="Priority" />
         </Grid.Col>
         <Grid.Col span={8}>
-          <TextInput placeholder="this is placeholder" label="label" textarea />
+          <TextInput
+            placeholder="Start writing here"
+            label="Description"
+            textarea
+          />
         </Grid.Col>
         <Grid.Col span={4}>
           <ImageDropzone hint="Attach as many files as you like, each file should not exceed 5mb" />

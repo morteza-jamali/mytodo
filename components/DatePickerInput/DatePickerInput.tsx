@@ -1,7 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import DatePicker from 'react-datepicker';
+import InputWrapper, {
+  type InputWrapperProps,
+} from '../InputWrapper/InputWrapper';
 import css from 'styled-jsx/css';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -76,11 +79,14 @@ const calendarStyles = css.resolve`
   }
 `;
 
-export const DatePickerInput: React.FC = () => {
+export interface DatePickerInputProps
+  extends Pick<InputWrapperProps, 'label'> {}
+
+export const DatePickerInput: FC<DatePickerInputProps> = ({ label }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   return (
-    <>
+    <InputWrapper {...{ label }} gap={0}>
       <DatePicker
         isClearable
         selected={selectedDate}
@@ -90,7 +96,7 @@ export const DatePickerInput: React.FC = () => {
       />
       {calendarStyles.styles}
       {inputStyles.styles}
-    </>
+    </InputWrapper>
   );
 };
 

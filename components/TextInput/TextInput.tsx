@@ -1,14 +1,20 @@
 'use client';
 
-import React from 'react';
+import { type ComponentProps } from 'react';
+import InputWrapper, {
+  type InputWrapperProps,
+} from '../InputWrapper/InputWrapper';
 
 interface TextareaProps {
   resizable?: boolean;
 }
 
-export interface TextInputProps {
-  label?: string;
-  placeholder?: string;
+export interface TextInputProps
+  extends Pick<
+      ComponentProps<'input'>,
+      'name' | 'defaultValue' | 'placeholder'
+    >,
+    Pick<InputWrapperProps, 'label'> {
   textarea?: boolean | TextareaProps;
 }
 
@@ -18,8 +24,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   ...props
 }) => {
   return (
-    <div>
-      {label && <label>{label}</label>}
+    <InputWrapper {...{ label }} gap={0}>
       {textarea ? <textarea {...props} /> : <input type="text" {...props} />}
 
       <style jsx>{`
@@ -49,17 +54,8 @@ export const TextInput: React.FC<TextInputProps> = ({
           textarea.resizable === false &&
           'resize: none;'}
         }
-
-        label {
-          color: var(--text-color-1);
-          display: block;
-          cursor: default;
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 21.7px;
-        }
       `}</style>
-    </div>
+    </InputWrapper>
   );
 };
 
